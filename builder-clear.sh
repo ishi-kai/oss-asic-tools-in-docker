@@ -27,7 +27,7 @@ if [ -n "${DRY_RUN}" ]; then
 fi
 
 if [ -z ${BUILDER_NAME+z} ]; then
-	BUILDER_NAME="iic-osic-tools-builder"
+	BUILDER_NAME="oss-asic-tools-builder"
 fi
 
 if [ -z ${DOCKER_PLATFORMS+z} ]; then

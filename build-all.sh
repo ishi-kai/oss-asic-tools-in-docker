@@ -27,20 +27,21 @@ if [ -n "${DRY_RUN}" ]; then
 fi
 
 if [ -z ${DOCKER_USER+z} ]; then
-	DOCKER_USER="hpretl"
+	DOCKER_USER="ishikai"
 fi
 
 if [ -z ${DOCKER_IMAGE+z} ]; then
-        DOCKER_IMAGE="iic-osic-tools"
+        DOCKER_IMAGE="oss-asic-tools"
 fi
 
 if [ -z ${DOCKER_TAGS+z} ]; then
-		CONTAINER_TAG="$(date +"%Y.%m")"
+		CONTAINER_TAG="$(date +"%Y.%m.%d")"
         DOCKER_TAGS="latest,$CONTAINER_TAG"
 fi
 
 if [ -z ${DOCKER_PLATFORMS+z} ]; then
 	DOCKER_PLATFORMS="linux/amd64,linux/arm64/v8"
+	DOCKER_PLATFORMS="linux/amd64"
 fi
 
 if [ -z ${DOCKER_LOAD+z} ]; then
@@ -51,11 +52,11 @@ fi
 
 if [ -z ${BUILDER_STRS+z} ]; then
 	echo "Defining builder strs"
-	BUILDER_STRS="host=ssh://pretl@buildx86,host=unix:///var/run/docker.sock"
+	BUILDER_STRS="host=unix:///var/run/docker.sock"
 fi
 
 if [ -z ${BUILDER_NAME+z} ]; then
-	BUILDER_NAME="iic-osic-tools-builder"
+	BUILDER_NAME="oss-asic-tools-builder"
 fi
 
 

@@ -25,7 +25,7 @@ if [ -n "${DRY_RUN}" ]; then
 fi
 
 if [ -z ${CONTAINER_NAME+z} ]; then
-	CONTAINER_NAME="iic-osic-tools_xserver_uid_"$(id -u)
+	CONTAINER_NAME="oss-asic-tools_xserver_uid_"$(id -u)
 fi
 
 # Check if the container exists and if it is running.
@@ -54,11 +54,11 @@ if [ -z ${DESIGNS+z} ]; then
 fi
 
 if [ -z ${DOCKER_USER+z} ]; then
-	DOCKER_USER="hpretl"
+	DOCKER_USER="ishikai"
 fi
 
 if [ -z ${DOCKER_IMAGE+z} ]; then
-	DOCKER_IMAGE="iic-osic-tools"
+	DOCKER_IMAGE="oss-asic-tools"
 fi
 
 if [ -z ${DOCKER_TAG+z} ]; then
@@ -124,6 +124,19 @@ if [[ "$OSTYPE" == "linux"* ]]; then
 		fi
 	fi
 	PARAMS="$PARAMS -v $XAUTH:/headless/.xauthority:rw -e XAUTHORITY=/headless/.xauthority"
+
+	if [ -d ${XDG_RUNTIME_DIR} ] && [ -z "${SUPPRESS_DISCORD_RP}" ]; then
+        DISCORD_IPC=discord-ipc-0
+        TMP_RUNTIME_DEFAULT=/tmp/runtime-default
+
+        HOST_DISCORD_IPC=${XDG_RUNTIME_DIR}/${DISCORD_IPC}
+        CONTAINER_DISCORD_IPC=${TMP_RUNTIME_DEFAULT}/${DISCORD_IPC}
+        
+        if [ -S ${HOST_DISCORD_IPC} ]; then
+
+            PARAMS="${PARAMS} --mount type=bind,source=${HOST_DISCORD_IPC},target=${CONTAINER_DISCORD_IPC}"
+        fi
+    fi
 
 elif [[ "$OSTYPE" == "darwin"* ]]; then
 	if [ -z ${CONTAINER_USER+z} ]; then
@@ -200,5 +213,5 @@ else
 	${ECHO_IF_DRY_RUN} docker pull "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
 	# Disable SC2086, $PARAMS must be globbed and splitted.
 	# shellcheck disable=SC2086
-	${ECHO_IF_DRY_RUN} docker run -d --user "${CONTAINER_USER}:${CONTAINER_GROUP}" -e "DISPLAY=${DISP}" -v "${DESIGNS}:/foss/designs:rw" ${PARAMS} --name "${CONTAINER_NAME}" "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
+	${ECHO_IF_DRY_RUN} docker run -d --user "${CONTAINER_USER}:${CONTAINER_GROUP}" -e "DISPLAY=${DISP}" -v "${DESIGNS}:/headless/eda/designs:rw" ${PARAMS} --name "${CONTAINER_NAME}" "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
 fi

@@ -32,14 +32,14 @@ IF "%DESIGNS%"=="" (
 echo Using/creating designs directory: %DESIGNS%
 if not exist "%DESIGNS%" %ECHO_IF_DRY_RUN% mkdir "%DESIGNS%" 
 
-IF "%DOCKER_USER%"=="" SET DOCKER_USER=hpretl
-IF "%DOCKER_IMAGE%"=="" SET DOCKER_IMAGE=iic-osic-tools
+IF "%DOCKER_USER%"=="" SET DOCKER_USER=ishikai
+IF "%DOCKER_IMAGE%"=="" SET DOCKER_IMAGE=oss-asic-tools
 IF "%DOCKER_TAG%"=="" SET DOCKER_TAG=latest
 
 IF "%CONTAINER_USER%"=="" SET CONTAINER_USER=1000
 IF "%CONTAINER_GROUP%"=="" SET CONTAINER_GROUP=1000
 
-IF "%CONTAINER_NAME%"=="" SET CONTAINER_NAME=iic-osic-tools_xvnc
+IF "%CONTAINER_NAME%"=="" SET CONTAINER_NAME=oss-asic-tools_xvnc
 
 IF "%WEBSERVER_PORT%"=="" (
   SET /a WEBSERVER_PORT=80
@@ -96,6 +96,6 @@ IF NOT ERRORLEVEL 1 (
         echo Container %CONTAINER_NAME% exists. Restart with \"docker start %CONTAINER_NAME%\" or remove with \"docker rm %CONTAINER_NAME%\" if required.
     ) ELSE (
         echo Container does not exist, creating %CONTAINER_NAME% ...
-        %ECHO_IF_DRY_RUN% docker run -d --user %CONTAINER_USER%:%CONTAINER_GROUP% %PARAMS% -v "%DESIGNS%":/foss/designs --name %CONTAINER_NAME% %DOCKER_USER%/%DOCKER_IMAGE%:%DOCKER_TAG%
+        %ECHO_IF_DRY_RUN% docker run -d --user %CONTAINER_USER%:%CONTAINER_GROUP% %PARAMS% -v "%DESIGNS%":/oss/designs --name %CONTAINER_NAME% %DOCKER_USER%/%DOCKER_IMAGE%:%DOCKER_TAG%
     )
 )

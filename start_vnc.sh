@@ -42,11 +42,11 @@ if [ -z ${VNC_PORT+z} ]; then
 fi
 
 if [ -z ${DOCKER_USER+z} ]; then
-	DOCKER_USER="hpretl"
+	DOCKER_USER="ishikai"
 fi
 
 if [ -z ${DOCKER_IMAGE+z} ]; then
-	DOCKER_IMAGE="iic-osic-tools"
+	DOCKER_IMAGE="oss-osic-tools"
 fi
 
 if [ -z ${DOCKER_TAG+z} ]; then
@@ -54,7 +54,7 @@ if [ -z ${DOCKER_TAG+z} ]; then
 fi
 
 if [ -z ${CONTAINER_NAME+z} ]; then
-	CONTAINER_NAME="iic-osic-tools_xvnc_uid_"$(id -u)
+	CONTAINER_NAME="oss-asic-tools_xvnc_uid_"$(id -u)
 fi
 
 if [[ "$OSTYPE" == "linux"* ]]; then
@@ -144,5 +144,5 @@ else
 	#${ECHO_IF_DRY_RUN} docker pull "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
 	# Disable SC2086, $PARAMS must be globbed and splitted.
 	# shellcheck disable=SC2086
-	${ECHO_IF_DRY_RUN} docker run -d --user "${CONTAINER_USER}:${CONTAINER_GROUP}" $PARAMS -v "$DESIGNS:/foss/designs:rw" --name "${CONTAINER_NAME}" "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
+	${ECHO_IF_DRY_RUN} docker run -d --user "${CONTAINER_USER}:${CONTAINER_GROUP}" $PARAMS -v "$DESIGNS:/headless/eda/designs:rw" --name "${CONTAINER_NAME}" "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
 fi

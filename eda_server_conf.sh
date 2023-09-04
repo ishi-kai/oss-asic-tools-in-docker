@@ -24,5 +24,5 @@ export DOCKER_EXTRA_PARAMS="--cpus 4 --memory 8G --dns 8.8.8.8 --restart on-fail
 export VNC_PORT=0
 export EDA_USER_HOME="/var/local/eda"
 export EDA_CREDENTIAL_FILE="eda_user_credentials.json"
-export EDA_CONTAINER_PREFIX="iic-osic-eda"
+export EDA_CONTAINER_PREFIX="ishikai-oss-asic-eda"
 export EDA_USER_GROUP=2000

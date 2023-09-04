@@ -34,11 +34,11 @@ if [ -z ${DESIGNS+z} ]; then
 fi
 
 if [ -z ${DOCKER_USER+z} ]; then
-	DOCKER_USER="hpretl"
+	DOCKER_USER="ishikai"
 fi
 
 if [ -z ${DOCKER_IMAGE+z} ]; then
-	DOCKER_IMAGE="iic-osic-tools"
+	DOCKER_IMAGE="oss-osic-tools"
 fi
 
 if [ -z ${DOCKER_TAG+z} ]; then
@@ -55,7 +55,7 @@ if [ -z ${CONTAINER_GROUP+z} ]; then
 fi
 
 if [ -z ${CONTAINER_NAME+z} ]; then
-	CONTAINER_NAME="iic-osic-tools_shell_uid_"$(id -u)
+	CONTAINER_NAME="oss-asic-tools_shell_uid_"$(id -u)
 fi
 
 PARAMS="--security-opt seccomp=unconfined"
@@ -115,5 +115,5 @@ else
 	#${ECHO_IF_DRY_RUN} docker pull "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}"
 	# Disable SC2086, $PARAMS must be globbed and splitted.
 	# shellcheck disable=SC2086
-	${ECHO_IF_DRY_RUN} docker run -it --name "${CONTAINER_NAME}" --user "${CONTAINER_USER}:${CONTAINER_GROUP}" -e "DISPLAY=${DISP}" $DOCKER_EXTRA_PARAMS -v "${DESIGNS}:/foss/designs:rw" "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}" -s /bin/bash
+	${ECHO_IF_DRY_RUN} docker run -it --name "${CONTAINER_NAME}" --user "${CONTAINER_USER}:${CONTAINER_GROUP}" -e "DISPLAY=${DISP}" $DOCKER_EXTRA_PARAMS -v "${DESIGNS}:/headless/eda/designs:rw" "${DOCKER_USER}/${DOCKER_IMAGE}:${DOCKER_TAG}" -s /bin/bash
 fi

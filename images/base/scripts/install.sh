@@ -24,6 +24,9 @@ pip3 install --upgrade --no-cache-dir \
 	jupyter-collaboration \
 	jupyterlab-night
 
+pip3 install --upgrade --no-cache-dir \
+    pypresence \
+    polyphony
 
 echo "[INFO] Install EDA packages via GEM"
 gem install \

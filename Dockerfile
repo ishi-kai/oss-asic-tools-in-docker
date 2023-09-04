@@ -4,15 +4,19 @@
 ARG BASE_IMAGE=ubuntu:jammy
 FROM ${BASE_IMAGE} as base
 ARG CONTAINER_TAG=unknown
-ENV IIC_OSIC_TOOLS_VERSION=${CONTAINER_TAG} \
+ENV DEPRECATED_IIC_OSIC_TOOLS_VERSION=${CONTAINER_TAG}
+ENV ISHIKAI_OSS_ASIC_TOOLS_VERSION=${CONTAINER_TAG} \
     DEBIAN_FRONTEND=noninteractive \
-    TZ=Europe/Vienna \
-    LC_ALL=en_US.UTF-8 \
-    LANG=en_US.UTF-8 \
-    TOOLS=/foss/tools \
-    PDK_ROOT=/foss/pdks \
-    DESIGNS=/foss/designs \
-    EXAMPLES=/foss/examples
+    TZ=Asia/Tokyo \
+    LC_ALL=ja_JP.UTF-8 \
+    LANG=ja_JP.UTF-8 \
+    TOOLS=/opt/oss/tools \
+    PDK_ROOT=/opt/oss/pdks \
+    EXAMPLES=/opt/oss/examples
+
+ENV HOME=/headless \
+    DESIGNS=/headless/eda/designs
+
 COPY images/base/scripts/dependencies.sh dependencies.sh
 RUN bash dependencies.sh
 
@@ -373,7 +377,7 @@ RUN bash install.sh
 #######################################################################
 # Final output container
 #######################################################################
-FROM basepkg as iic-osic-tools
+FROM basepkg as ishikai-oss-asic-tools
 
 # Connection ports for controlling the UI:
 # VNC port:5901
@@ -437,7 +441,7 @@ COPY --from=align-pdk-sky130             ${TOOLS}/              ${TOOLS}/
 ADD images/align-utils ${TOOLS}/align-utils
 
 # Copy skeleton and tool version file for OpenLane
-COPY images/iic-osic-tools/skel /
+COPY images/ishikai-oss-asic-tools/skel /
 COPY tool_metadata.yml /
 
 # Allow scripts to be executed by any user
@@ -457,4 +461,4 @@ RUN $STARTUPDIR/scripts/post_install.sh
 WORKDIR ${DESIGNS}
 USER 1000:1000
 ENTRYPOINT ["/dockerstartup/scripts/ui_startup.sh"]
-CMD ["--wait"]
+CMD ["--discord-rich-presence", "--wait"]

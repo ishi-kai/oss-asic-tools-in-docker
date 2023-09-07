@@ -18,6 +18,16 @@ $ cd oss-asic-tools-in-docker
 $ ./start_x.sh
 ```
 
+## WSL2 の Ubuntu22.04
+まっさらなWSL2のUbuntu22.04で、start_x.shを叩いたら、
+Xauthorityがないというエラーが発生することがあります。
+いかのようにすれば対応可能です。
+
+```
+touch ~/.Xauthority
+xauth add ${HOST}:0 . $(xxd -l 16 -p /dev/urandom)
+```
+
 ## ユーザ
 Docker 内の ユーザは 1000:1000 の id と gid を使用しています。
 したがって、もしホストのユーザがこの ID じゃなかったら
@@ -31,6 +41,13 @@ HOME は /headless にしてあります。
 /etc/passwd にユーザがないため sudo コマンドはあるものの、
 sudo は使えません。
 
+## 追加のツールをインストール
+Docker 内でツールを追加でインストールしようと思った場合は
+Docker に root で入る必要があります。(sudo が使えないため)
+docker run で --user 0:0 をつかって立ち上げれば
+root で Docker 内のイメージに入り込めるので、その後、
+apt install などをして必要なツール類をインストールしてください。
+
 ## Discord Rich Presence 対応
 start_x.sh で起動時に Discord が起動されていれば discord-ipc-0 の
 ソケットを共有して Discord の RPC 経由で Rich Presence に対応して
@@ -39,13 +56,6 @@ start_x.sh で起動時に Discord が起動されていれば discord-ipc-0 の
 そのため、start_x.sh で起動すると「Chipathon2023 をゲーム中」
 の表示がなされます。設定を抑制するには、環境変数の 
 SUPPRESS_DISCORD_RP に yes を設定してください。
-
-## 追加のツールをインストール
-Docker 内でツールを追加でインストールしようと思った場合は
-Docker に root で入る必要があります。
-docker run で --user 0:0 をつかって立ち上げれば
-root で Docker 内のイメージに入り込めるので、その後、
-apt install などをして必要なツール類をインストールしてください。
 
 # その歴史
 元になっているのは 
@@ -89,7 +99,7 @@ buildx をインストールする必要があります。
 [ここ](https://zenn.dev/bells17/articles/docker-buildx)
 の情報がわかりやすかった。
 
-うまくインストールできれば docker buildx version とか
+うまく buildx がインストールできれば docker buildx version とか
 のコマンドが使えるようになる。
 
 # ToDo

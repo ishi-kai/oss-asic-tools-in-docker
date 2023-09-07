@@ -52,7 +52,8 @@ fi
 
 if [ -z ${BUILDER_STRS+z} ]; then
 	echo "Defining builder strs"
-	BUILDER_STRS="host=unix:///var/run/docker.sock"
+    BUILDER_STRS="host=unix:///var/run/docker.sock,host=ssh://ishikai@buildarm64"
+    BUILDER_STRS="host=unix:///var/run/docker.sock"
 fi
 
 if [ -z ${BUILDER_NAME+z} ]; then

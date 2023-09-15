@@ -46,7 +46,7 @@ if [ -z ${DOCKER_USER+z} ]; then
 fi
 
 if [ -z ${DOCKER_IMAGE+z} ]; then
-	DOCKER_IMAGE="oss-osic-tools"
+	DOCKER_IMAGE="oss-asic-tools"
 fi
 
 if [ -z ${DOCKER_TAG+z} ]; then

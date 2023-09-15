@@ -17,6 +17,8 @@ pip3 install --upgrade --no-cache-dir \
 	pyverilog \
 	siliconcompiler \
 	spyci \
+    pandas \
+    docopt \
 	volare
 
 pip3 install --upgrade --no-cache-dir \
